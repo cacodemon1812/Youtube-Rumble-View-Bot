@@ -22,9 +22,11 @@
 		}
 	}
 
-	async function checkLoginStatus(){
-		let logedInData = (await axios.get(`/api/patreon_status`)).data
+	async function checkLoginStatus() {
+		let logedInData = (await axios.get(`/api/patreon_status`)).data;
+		console.log('logedInData', logedInData);
 		isLoggedIn = logedInData.status;
+		//isLoggedIn = true;
 	}
 
 	function changeAPIKey(newAPIKey: string) {
@@ -35,7 +37,7 @@
 	checkLoginStatus();
 	setInterval(() => {
 		checkLoginStatus();
-	}, 1000 * 15)
+	}, 1000 * 15);
 </script>
 
 <div id="form_container">
@@ -151,7 +153,9 @@
 					/>
 				</div>
 
-				<p class="setting_info">Should the workers use AV1 if the video is encoded with 144p AV1?</p>
+				<p class="setting_info">
+					Should the workers use AV1 if the video is encoded with 144p AV1?
+				</p>
 			</div>
 
 			<div class="setting_div">
@@ -208,7 +212,8 @@
 
 				<div class="same_line premium_line">
 					<p>
-						To get access to the full list of features, make an account on <a class="patreon" 
+						To get access to the full list of features, make an account on <a
+							class="patreon"
 							href="https://www.bloxxy.net/account">our website</a
 						>, log in with your patreon and make a 10$ subscription on our
 						<a class="patreon" href="https://www.patreon.com/Bloxxy213/membership">patreon</a>.
@@ -216,9 +221,7 @@
 				</div>
 
 				<div class="same_line premium_line">
-					<p>
-						NOTE: Each subscription lasts one month.
-					</p>
+					<p>NOTE: Each subscription lasts one month.</p>
 				</div>
 
 				<div class="same_line premium_line">
@@ -227,16 +230,22 @@
 						here:
 					</p>
 
-					<input type="text" class="premium_textbox" bind:value={data.api_key} style="margin-bottom: 1em;"/>
+					<input
+						type="text"
+						class="premium_textbox"
+						bind:value={data.api_key}
+						style="margin-bottom: 1em;"
+					/>
 				</div>
 
 				<div class="same_line premium_line">
-					<p class="premium_status">
-						Premium status:  
-					</p>
+					<p class="premium_status">Premium status:</p>
 
-					<p style="margin-left: 0.5em" class="premium_status premium_status_{isLoggedIn ? "premium" : "normal"}">
-						{isLoggedIn ? "PREMIUM" : "NON-PATREON"}
+					<p
+						style="margin-left: 0.5em"
+						class="premium_status premium_status_{isLoggedIn ? 'premium' : 'normal'}"
+					>
+						{isLoggedIn ? 'PREMIUM' : 'NON-PATREON'}
 					</p>
 				</div>
 			</div>
@@ -353,27 +362,27 @@
 	.container_rainbow {
 		animation: rainbow-shadow 3s infinite linear;
 		border-radius: 5%;
-
 	}
 
 	@keyframes rainbow-shadow {
-		0%, 100% {
+		0%,
+		100% {
 			box-shadow: 0 0 5px #ff0000, 0 0 10px #ff7f00, 0 0 15px #ffff00, 0 0 20px #00ff00,
 				0 0 25px #0000ff, 0 0 30px #4b0082, 0 0 35px #9400d3;
 		}
 		25% {
-			box-shadow: 0 0 35px #9400d3, 0 0 5px #ff0000, 0 0 10px #ff7f00, 0 0 15px #ffff00, 0 0 20px #00ff00,
-				0 0 25px #0000ff, 0 0 30px #4b0082;
+			box-shadow: 0 0 35px #9400d3, 0 0 5px #ff0000, 0 0 10px #ff7f00, 0 0 15px #ffff00,
+				0 0 20px #00ff00, 0 0 25px #0000ff, 0 0 30px #4b0082;
 		}
 		50% {
-			box-shadow: 0 0 30px #4b0082, 0 0 35px #9400d3, 0 0 5px #ff0000, 0 0 10px #ff7f00, 0 0 15px #ffff00, 0 0 20px #00ff00,
-				0 0 25px #0000ff;
+			box-shadow: 0 0 30px #4b0082, 0 0 35px #9400d3, 0 0 5px #ff0000, 0 0 10px #ff7f00,
+				0 0 15px #ffff00, 0 0 20px #00ff00, 0 0 25px #0000ff;
 		}
 		75% {
-			box-shadow: 0 0 25px #0000ff, 0 0 30px #4b0082, 0 0 35px #9400d3, 0 0 5px #ff0000, 0 0 10px #ff7f00, 0 0 15px #ffff00, 0 0 20px #00ff00;
+			box-shadow: 0 0 25px #0000ff, 0 0 30px #4b0082, 0 0 35px #9400d3, 0 0 5px #ff0000,
+				0 0 10px #ff7f00, 0 0 15px #ffff00, 0 0 20px #00ff00;
 		}
 	}
-
 
 	#form_container {
 		padding-left: 3%;

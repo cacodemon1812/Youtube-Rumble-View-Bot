@@ -4,32 +4,31 @@
 	import { fade } from 'svelte/transition';
 	import axios from 'axios';
 
-
 	import Message from './Message.svelte';
 	import ReminderMessage from './ReminderMessage.svelte';
 	let showMessage = false;
 	let secondButton = false;
-	let messageTitle = ''
-  	let messageText = '';
+	let messageTitle = '';
+	let messageText = '';
 	let messageButton1Text = '';
-	let messageButton2Text = ''
+	let messageButton2Text = '';
 
 	let showReminderMessage = false;
-	let reminderMessageTitle = ''
-  	let reminderMessageText = '';
+	let reminderMessageTitle = '';
+	let reminderMessageText = '';
 	let reminderImage = '';
 	let reminderMessageButton1Text = '';
-	let reminderMessageButton2Text = ''
-	let reminderMessageButton3Text = ''
+	let reminderMessageButton2Text = '';
+	let reminderMessageButton3Text = '';
 
 	let messageOnDecision = (decisionIndex: number) => {
-		socket.emit("decisionTaken", decisionIndex)
-	}
+		socket.emit('decisionTaken', decisionIndex);
+	};
 
 	let onClose = () => {
 		showMessage = false;
 		showReminderMessage = false;
-	}
+	};
 
 	socket.on('showMessage', (messageData) => {
 		showMessage = true;
@@ -150,11 +149,9 @@
 	}*/
 
 	if (no_navbar !== 'true' && pLocation !== 'login') {
-		axios
-			.get('/api/health?login=true')
-			.then((data) => {
-				showNavbar = data.data.connected;
-			})
+		axios.get('/api/health?login=true').then((data) => {
+			showNavbar = data.data.connected;
+		});
 	}
 
 	let el = document.querySelector('#slot');
@@ -248,60 +245,66 @@
 	};
 
 	window.addEventListener('unhandledrejection', function (event) {
-		socket.emit('log_message', { type: 'error', message: `Promise unhandled rejection: ${event.reason}` });
+		socket.emit('log_message', {
+			type: 'error',
+			message: `Promise unhandled rejection: ${event.reason}`
+		});
 	});
 
 	let isFreeLoggedIn = false;
 	let isPremiumLoggedIn = false;
 	let checkedStatus = false;
 
-	function navigate(){
-		if(!(isFreeLoggedIn || isPremiumLoggedIn) && checkedStatus){
-			if(!window.location.href.includes("/manage_key")){
-				window.location.href = "/manage_key";
+	function navigate() {
+		if (!(isFreeLoggedIn || isPremiumLoggedIn) && checkedStatus) {
+			if (!window.location.href.includes('/manage_key')) {
+				window.location.href = '/manage_key';
 			}
 		}
 	}
 
-	async function checkPremiumLoginStatus(){
-		let logedInData = (await axios.get(`/api/patreon_status`)).data
+	async function checkPremiumLoginStatus() {
+		let logedInData = (await axios.get(`/api/patreon_status`)).data;
+		console.log('logedInData', logedInData);
 		isPremiumLoggedIn = logedInData.status;
 		checkedStatus = logedInData.checkedStatus;
+		//isPremiumLoggedIn = true;
+		//checkedStatus = true;
 	}
 
-	async function checkFreeLoginStatus(){
-		let logedInData = (await axios.get(`/api/free_status`)).data
+	async function checkFreeLoginStatus() {
+		let logedInData = (await axios.get(`/api/free_status`)).data;
 		isFreeLoggedIn = logedInData.status;
 	}
 
 	setInterval(async () => {
-		await checkFreeLoginStatus().catch(err => {});
-		await checkPremiumLoginStatus().catch(err => {});
+		await checkFreeLoginStatus().catch((err) => {});
+		await checkPremiumLoginStatus().catch((err) => {});
 		navigate();
 	}, 2500);
 </script>
 
 <ReminderMessage
-  text={reminderMessageText}
-  button1Text={reminderMessageButton1Text}
-  button2Text={reminderMessageButton2Text}
-  button3Text={reminderMessageButton3Text}
-  title={reminderMessageTitle}
-  showMessage={showReminderMessage}
-  image={reminderImage}
-  onDecision={messageOnDecision}
-  onClose={onClose}
+	text={reminderMessageText}
+	button1Text={reminderMessageButton1Text}
+	button2Text={reminderMessageButton2Text}
+	button3Text={reminderMessageButton3Text}
+	title={reminderMessageTitle}
+	showMessage={showReminderMessage}
+	image={reminderImage}
+	onDecision={messageOnDecision}
+	{onClose}
 />
 
 <Message
-  text={messageText}
-  button1Text={messageButton1Text}
-  button2Text={messageButton2Text}
-  title={messageTitle}
-  showMessage={showMessage}
-  secondButton={secondButton}
-  onDecision={messageOnDecision}
-  onClose={onClose}
+	text={messageText}
+	button1Text={messageButton1Text}
+	button2Text={messageButton2Text}
+	title={messageTitle}
+	{showMessage}
+	{secondButton}
+	onDecision={messageOnDecision}
+	{onClose}
 />
 
 <div id="main_div">
@@ -387,7 +390,10 @@
 						<span class="sidebar_btn_title">Donate</span>
 					</a>
 
-					<a class="sidebar_button blue_sidebar" href="https://github.com/JijaProGamer/Youtube-View-Bot">
+					<a
+						class="sidebar_button blue_sidebar"
+						href="https://github.com/JijaProGamer/Youtube-View-Bot"
+					>
 						<img src="/svgs/github.svg" alt="button svg" class="sidebar_image" />
 						<span class="sidebar_btn_title">GitHub Project</span>
 					</a>
